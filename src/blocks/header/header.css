@@ -14,9 +14,16 @@
   align-items: start;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 768px) {
   .header {
-    height: 56px;
+    height: 190px;
     padding-top: 28px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+            "navbar"
+            "logo";
+    border-bottom: none;
   }
 }

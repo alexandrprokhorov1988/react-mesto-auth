@@ -14,3 +14,10 @@
 .navbar__button:hover{
   opacity: 0.6;
 }
+
+@media screen and (max-width: 768px) {
+  .navbar__button {
+    padding-left: 0;
+    padding-top: 18px;
+  }
+}

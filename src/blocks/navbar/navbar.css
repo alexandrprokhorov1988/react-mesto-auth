@@ -2,7 +2,12 @@
 @import url(./__user-name/navbar__user-name.css);
 @import url(./__button/navbar__button.css);
 
-.navbar {
+.navbar{
 
+}
 
+@media screen and (max-width: 768px) {
+  .navbar{
+    grid-area: navbar;
+  }
 }
