@@ -1,0 +1,14 @@
+.form__input_type_login{
+  background-color: transparent;
+  border-bottom: 2px solid #CCCCCC;
+  padding-bottom: 13px;
+  color: #FFFFFF;
+}
+
+.form__input_type_login::-moz-placeholder{
+  color: #FFFFFF;
+}
+
+.form__input_type_login::-webkit-input-placeholder{
+  color: #FFFFFF;
+}

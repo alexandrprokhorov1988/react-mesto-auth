@@ -1,0 +1,12 @@
+@import url(./__signin/login__signin.css);
+@import url(./__question/login__question.css);
+@import url(./__login-link/login__login-link.css);
+@import url(./__title/login__title.css);
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

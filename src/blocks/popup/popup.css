@@ -9,6 +9,10 @@
 @import url(./__image-title/popup__image-title.css);
 @import url(./_type/popup_type_form.css);
 @import url(./_type/popup_type_img.css);
+@import url(./__container/_type/popup__container_type_infoTooltip.css);
+@import url(./__title/_type/popup__title_type_infoTooltip.css);
+@import url(./__image/_type/popup__image_type_infoTooltip.css);
+@import url(./__close-icon/_type/popup__close-icon_type_infoTooltip.css);
 
 .popup {
   position: fixed;

@@ -1,0 +1,15 @@
+.form_type_register{
+  background-color: transparent;
+  width: 100%;
+  max-width: 358px;
+  padding-top: 50px;
+  -webkit-transition: all ease .5s;
+  -o-transition: all ease .5s;
+  transition: all ease .5s;
+}
+
+@media screen and (max-width: 425px) {
+  .form_type_register {
+    max-width: 260px;
+  }
+}

@@ -1,0 +1,16 @@
+.navbar__button{
+  background-color: transparent;
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #A9A9A9;
+  padding-left: 24px;
+  outline: none;
+  cursor: pointer;
+}
+
+.navbar__button:hover{
+  opacity: 0.6;
+}

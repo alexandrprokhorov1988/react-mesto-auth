@@ -3,11 +3,11 @@
   max-height: 33px;
 }
 
-@media screen and (max-width: 425px) {
-  .logo {
-    padding-left: 27px;
-  }
-}
+/*@media screen and (max-width: 425px) {*/
+  /*.logo {*/
+    /*padding-left: 27px;*/
+  /*}*/
+/*}*/
 
 @media screen and (max-width: 375px) {
   .logo {

@@ -1,0 +1,13 @@
+.login__login-link{
+  padding-left: 5px;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.login__login-link:hover{
+  opacity: 0.6;
+}
