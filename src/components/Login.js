@@ -1,9 +1,10 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 function Login({ onLogin, name }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory();
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -16,8 +17,7 @@ function Login({ onLogin, name }) {
   function handleLoginSubmit(e) {
     e.preventDefault();
     onLogin({ email, password });
-    setEmail('');
-    setPassword('');
+    history.push('/');
   }
 
   return (
@@ -62,7 +62,6 @@ function Login({ onLogin, name }) {
           <input className="form__submit-button form__submit-button_type_login"
                  type="submit"
                  name="submit"
-            //disabled={isLoading}
                  value={'Войти'}/>
         </form>
         <div className="login__signin">
@@ -74,4 +73,4 @@ function Login({ onLogin, name }) {
   );
 }
 
-export default withRouter(Login);
+export default Login;

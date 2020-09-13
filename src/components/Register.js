@@ -1,9 +1,10 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
-function Register({ onRegister, name }) {
+function Register({ onRegister, name, onConfirm, isLoading }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory();
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -15,9 +16,14 @@ function Register({ onRegister, name }) {
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    onRegister({ email, password });
-    setEmail('');
-    setPassword('');
+    onRegister({ email, password })
+      .then(() => {
+        onConfirm(true);
+        history.push('/sign-in');
+      })
+      .catch(() => {
+        onConfirm(false);
+      });
   }
 
   return (
@@ -42,8 +48,8 @@ function Register({ onRegister, name }) {
                    id="email-input"
                    value={email}
                    onChange={handleChangeEmail}/>
-            <span className="form__input-error"
-                  id="name-input-error"/>
+            <span className="form__input-error form__input-error_type_register"
+                  id="email-input-error"/>
           </label>
           <label className="form__label">
             <input className="form__input form__input_type_register"
@@ -56,14 +62,15 @@ function Register({ onRegister, name }) {
                    id="password-input"
                    value={password}
                    onChange={handleChangePassword}/>
-            <span className="form__input-error"
-                  id="name-input-error"/>
+            <span className="form__input-error form__input-error_type_register"
+                  id="password-input-error"/>
           </label>
           <input className="form__submit-button form__submit-button_type_register"
                  type="submit"
                  name="submit"
-            //disabled={isLoading}
-                 value={'Зарегистрироваться'}/>
+                 value={`${isLoading ? 'Регистрация' : 'Зарегистрироваться'}`}
+                 disabled={isLoading}
+          />
         </form>
         <div className="register__signin">
           <p className="register__question">Уже зарегистрированы?</p>
@@ -74,4 +81,4 @@ function Register({ onRegister, name }) {
   );
 }
 
-export default withRouter(Register);
+export default Register;

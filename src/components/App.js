@@ -12,8 +12,9 @@ import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
-import api from "../utils/api";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import api from '../utils/api';
+import * as auth from '../utils/auth.js';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
@@ -34,6 +35,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(true);
   const [email, setEmail]=React.useState('email@mail.com');
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
 
   React.useEffect(() => {
     setIsLoadingLoader(true);
@@ -151,18 +153,38 @@ function App() {
       })
   }
 
-  function handleRegister() {
-
+  function handleRegister({ email, password }) {
+    setIsLoading(true);
+    return auth.register(email, password)
+      .then((res)=>{
+        setIsLoading(false);
+        console.log(res);
+          if (res.statusCode !== 400) {
+            return true;
+          } else {
+            throw new Error('некорректно заполнено одно из полей');
+          }
+      })
   }
+
   function handleLogin() {
 
+  }
+
+  function handleSignOut() {
+
+  }
+
+  function handleRegisterConfirm(state) {
+    setIsInfoTooltipPopupOpen(true);
+    setIsSuccess(state);
   }
 
   return (
     <BrowserRouter>
     <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header loggedIn={loggedIn} email={email}/>
+          <Header loggedIn={loggedIn} email={email} onSignOut={handleSignOut}/>
           <Switch>
             {/*<ProtectedRoute exact*/}
                             {/*path="/"*/}
@@ -177,7 +199,12 @@ function App() {
                             {/*onCardDelete={handleConfirm}*/}
                             {/*isLoading={isLoadingLoader} />*/}
             <Route path="/sign-up">
-              <Register name="register" onRegister={handleRegister}/>
+              <Register
+                name="register"
+                onRegister={handleRegister}
+                onConfirm={handleRegisterConfirm}
+                isLoading={isLoading}
+              />
             </Route>
             <Route path="/sign-in">
               <Login name="login" onRegister={handleLogin}/>
@@ -214,6 +241,7 @@ function App() {
           <InfoTooltip
             isOpen={isInfoTooltipPopupOpen}
             onClose={closeAllPopups}
+            isSuccess={isSuccess}
           />
           <ImagePopup isOpen={isImgPopupOpen} onClose={closeAllPopups} card={selectedCard}/>
         </CurrentUserContext.Provider>
