@@ -3,7 +3,7 @@ import headerLogoMin from '../images/logo-min.svg';
 import headerLogoMax from '../images/logo-max.svg';
 import NavBar from "../components/NavBar";
 
-function Header({ loggedIn, email, authState }) {
+function Header({ loggedIn, userData, authState }) {
 
   return (
     <header className="header">
@@ -13,7 +13,7 @@ function Header({ loggedIn, email, authState }) {
           <img src={headerLogoMax} alt="Логотип"/>
         </picture>
       </a>
-      {loggedIn ? <NavBar email={email}/> : <a href={authState ? "/sign-in" : "/sign-up"} className="header__link">
+      {loggedIn ? <NavBar email={userData.email}/> : <a href={authState ? "/sign-in" : "/sign-up"} className="header__link">
         {authState ? "Войти" : "Регистрация"}
       </a>
       }

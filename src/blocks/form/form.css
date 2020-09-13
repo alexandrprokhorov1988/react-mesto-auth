@@ -8,6 +8,7 @@
 @import url(./__input-error/_visible/form__input-error_visible.css);
 @import url(./__input/_type/form__input_type_error.css);
 @import url(./__input-error/_type/form__input-error_type_register.css);
+@import url(./__input-error/_type/form__input-error_type_login.css);
 
 .form {
   margin: 0 auto;

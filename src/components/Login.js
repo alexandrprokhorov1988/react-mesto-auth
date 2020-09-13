@@ -1,10 +1,10 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-function Login({ onLogin, name }) {
+function Login({ onLogin, name, isLoading }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const history = useHistory();
+  const [message, setMessage] = React.useState('');
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -16,8 +16,10 @@ function Login({ onLogin, name }) {
 
   function handleLoginSubmit(e) {
     e.preventDefault();
+    if (!email || !password) {
+      return;
+    }
     onLogin({ email, password });
-    history.push('/');
   }
 
   return (
@@ -42,8 +44,8 @@ function Login({ onLogin, name }) {
                    id="email-input"
                    value={email}
                    onChange={handleChangeEmail}/>
-            <span className="form__input-error"
-                  id="name-input-error"/>
+            <span className="form__input-error form__input-error_type_login"
+                  id="email-input-error"/>
           </label>
           <label className="form__label">
             <input className="form__input form__input_type_login"
@@ -56,13 +58,14 @@ function Login({ onLogin, name }) {
                    id="password-input"
                    value={password}
                    onChange={handleChangePassword}/>
-            <span className="form__input-error"
-                  id="name-input-error"/>
+            <span className="form__input-error form__input-error_type_login"
+                  id="password-input-error"/>
           </label>
           <input className="form__submit-button form__submit-button_type_login"
                  type="submit"
                  name="submit"
-                 value={'Войти'}/>
+                 value={`${isLoading ? 'Вход' : 'Войти'}`}
+                 disabled={isLoading}/>
         </form>
         <div className="login__signin">
           <p className="login__question">Ещё не зарегистрированы?</p>

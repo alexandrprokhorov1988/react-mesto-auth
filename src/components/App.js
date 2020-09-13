@@ -7,7 +7,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmPopup from './ConfirmPopup';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect, useHistory} from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
@@ -32,10 +32,11 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isLoadingLoader, setIsLoadingLoader] = React.useState(false);
   const [isImgPopupOpen, setImgPopupOpen] = React.useState(false);
-  const [loggedIn, setLoggedIn] = React.useState(true);
-  const [email, setEmail]=React.useState('email@mail.com');
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userData, setUserData]=React.useState({});
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const history = useHistory();
 
   React.useEffect(() => {
     setIsLoadingLoader(true);
@@ -47,6 +48,10 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => setIsLoadingLoader(false))
   }, []);
+
+  React.useEffect(() => {
+    tokenCheck();
+  },[loggedIn]);
 
   function handleEscClose(e) {
     if (e.key === 'Escape') {
@@ -167,8 +172,20 @@ function App() {
       })
   }
 
-  function handleLogin() {
-
+  function handleLogin({email, password}) {
+    setIsLoading(true);
+    return auth.authorize( email, password)
+      .then((res)=>{
+        if(res && res.jwt) {
+          tokenCheck();
+        }
+      })
+      .catch((err)=> {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   function handleSignOut() {
@@ -180,11 +197,28 @@ function App() {
     setIsSuccess(state);
   }
 
+  function tokenCheck() {
+      const jwt = localStorage.getItem('jwt');
+      if(jwt){
+      auth.getContent(jwt)
+        .then((res)=>{
+          if(res){
+            setUserData({
+              _id: res._id,
+              email: res.email
+            });
+            setLoggedIn(true);
+            history.push('/');
+          }
+        })
+    }
+  }
+  
   return (
     <BrowserRouter>
     <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header loggedIn={loggedIn} email={email} onSignOut={handleSignOut}/>
+          <Header loggedIn={loggedIn} userData={userData} onSignOut={handleSignOut}/>
           <Switch>
             {/*<ProtectedRoute exact*/}
                             {/*path="/"*/}
@@ -207,7 +241,11 @@ function App() {
               />
             </Route>
             <Route path="/sign-in">
-              <Login name="login" onRegister={handleLogin}/>
+              <Login
+                name="login"
+                onLogin={handleLogin}
+                isLoading={isLoading}
+              />
             </Route>
             <Route>
               {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
