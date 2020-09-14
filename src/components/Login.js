@@ -1,10 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 function Login({ onLogin, name, isLoading }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [message, setMessage] = React.useState('');
+  const history = useHistory();
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -19,7 +20,10 @@ function Login({ onLogin, name, isLoading }) {
     if (!email || !password) {
       return;
     }
-    onLogin({ email, password });
+    onLogin({ email, password })
+      .then(()=>{
+         history.push("/");
+      })
   }
 
   return (

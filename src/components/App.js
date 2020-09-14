@@ -176,7 +176,8 @@ function App() {
     setIsLoading(true);
     return auth.authorize( email, password)
       .then((res)=>{
-        if(res && res.jwt) {
+        if(res && res.token) {
+          setLoggedIn(true);
           tokenCheck();
         }
       })
@@ -208,30 +209,31 @@ function App() {
               email: res.email
             });
             setLoggedIn(true);
-            history.push('/');
+            history.push("/");
           }
         })
+        .catch(err => console.log(err));
     }
   }
-  
+
   return (
     <BrowserRouter>
     <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
           <Header loggedIn={loggedIn} userData={userData} onSignOut={handleSignOut}/>
           <Switch>
-            {/*<ProtectedRoute exact*/}
-                            {/*path="/"*/}
-                            {/*loggedIn={loggedIn}*/}
-                            {/*component={<Main/>}*/}
-                            {/*onEditProfile={handleEditProfileClick}*/}
-                            {/*onAddPlace={handleAddPlaceClick}*/}
-                            {/*onEditAvatar={handleEditAvatarClick}*/}
-                            {/*onCardClick={handleCardClick}*/}
-                            {/*onCardLike={handleCardLike}*/}
-                            {/*cards={cards}*/}
-                            {/*onCardDelete={handleConfirm}*/}
-                            {/*isLoading={isLoadingLoader} />*/}
+            <ProtectedRoute exact
+                            path="/"
+                            loggedIn={loggedIn}
+                            component={Main}
+                            onEditProfile={handleEditProfileClick}
+                            onAddPlace={handleAddPlaceClick}
+                            onEditAvatar={handleEditAvatarClick}
+                            onCardClick={handleCardClick}
+                            onCardLike={handleCardLike}
+                            cards={cards}
+                            onCardDelete={handleConfirm}
+                            isLoading={isLoadingLoader} />
             <Route path="/sign-up">
               <Register
                 name="register"

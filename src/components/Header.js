@@ -13,7 +13,7 @@ function Header({ loggedIn, userData, authState }) {
           <img src={headerLogoMax} alt="Логотип"/>
         </picture>
       </a>
-      {loggedIn ? <NavBar email={userData.email}/> : <a href={authState ? "/sign-in" : "/sign-up"} className="header__link">
+      {loggedIn ? <NavBar email={userData ? userData.email : ''}/> : <a href={authState ? "/sign-in" : "/sign-up"} className="header__link">
         {authState ? "Войти" : "Регистрация"}
       </a>
       }
