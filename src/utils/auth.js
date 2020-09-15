@@ -12,6 +12,8 @@ export const register = (email, password) => {
     .then((res) => {
       if (res.status !== 400) {
         return res.json();
+      } else {
+        throw new Error('некорректно заполнено одно из полей');
       }
     })
     .then(res => res)
@@ -40,11 +42,11 @@ export const authorize = (email, password) => {
         }
       }
       catch (e) {
+        console.log(e);
         return e;
       }
     })
     .then(data => {
-      console.log(data);
       if (data.token) {
         localStorage.setItem('jwt', data.token);
         return data;
@@ -63,7 +65,25 @@ export const getContent = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-    .then(res => res.json())
-    .then(data => data)
+    .then((res) => {
+      try {
+        if (res.status === 200) {
+          return res.json();
+        }
+        if (res.status === 400) {
+          throw new Error('Токен не передан или передан не в том формате');
+        }
+        if (res.status === 401) {
+          throw new Error('Переданный токен некорректен');
+        }
+      }
+      catch (e) {
+        console.log(e);
+        return e;
+      }
+    })
+    .then(data => {
+      return data;
+    })
     .catch((err) => console.log(err));
 };

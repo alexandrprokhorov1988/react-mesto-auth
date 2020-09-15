@@ -4,7 +4,6 @@ import {Link, useHistory} from 'react-router-dom';
 function Login({ onLogin, name, isLoading }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [message, setMessage] = React.useState('');
   const history = useHistory();
 
   function handleChangeEmail(e) {

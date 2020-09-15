@@ -16,6 +16,9 @@ function Register({ onRegister, name, onConfirm, isLoading }) {
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
+    if (!email || !password) {
+      return;
+    }
     onRegister({ email, password })
       .then(() => {
         onConfirm(true);
