@@ -2,6 +2,7 @@ import React from 'react';
 import headerLogoMin from '../images/logo-min.svg';
 import headerLogoMax from '../images/logo-max.svg';
 import NavBar from "../components/NavBar";
+import {Link} from 'react-router-dom';
 
 function Header({ loggedIn, userData, authState, onSignOut }) {
 
@@ -15,9 +16,9 @@ function Header({ loggedIn, userData, authState, onSignOut }) {
       </a>
       {loggedIn
         ? <NavBar signOut={onSignOut} email={userData ? userData.email : ''}/>
-        : <a href={authState ? "/sign-in" : "/sign-up"} className="header__link">
+        : <Link to={authState ? "/sign-in" : "/sign-up"} className="header__link">
           {authState ? "Войти" : "Регистрация"}
-        </a>
+        </Link>
       }
     </header>
   );

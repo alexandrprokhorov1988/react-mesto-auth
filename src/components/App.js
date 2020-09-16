@@ -7,7 +7,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmPopup from './ConfirmPopup';
-import { Route, Switch, Redirect, useHistory} from 'react-router-dom';
+import {Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
@@ -30,13 +30,13 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [cardId, setCardId] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [loaded, setLoaded] = React.useState(false);
   const [isLoadingLoader, setIsLoadingLoader] = React.useState(false);
   const [isImgPopupOpen, setImgPopupOpen] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userData, setUserData]=React.useState(null );
+  const [userData, setUserData] = React.useState(null);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [authState, setAuthState] = React.useState(false);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -52,7 +52,7 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck();
-  },[loggedIn]);
+  }, [loggedIn]);
 
   function handleEscClose(e) {
     if (e.key === 'Escape') {
@@ -162,7 +162,7 @@ function App() {
   function handleRegister({ email, password }) {
     setIsLoading(true);
     return auth.register(email, password)
-      .then((res)=>{
+      .then((res) => {
         setIsLoading(false);
         if (res) {
           return true;
@@ -172,16 +172,16 @@ function App() {
       })
   }
 
-  function handleLogin({email, password}) {
+  function handleLogin({ email, password }) {
     setIsLoading(true);
-    return auth.authorize( email, password)
-      .then((res)=>{
-        if(res && res.token) {
+    return auth.authorize(email, password)
+      .then((res) => {
+        if (res && res.token) {
           setLoggedIn(true);
           tokenCheck();
         }
       })
-      .catch((err)=> {
+      .catch((err) => {
         console.log(err);
       })
       .finally(() => {
@@ -192,7 +192,7 @@ function App() {
   function handleSignOut() {
     localStorage.removeItem('jwt');
     history.push('/sign-in');
-    setLoaded(false);
+    setLoggedIn(false);
   }
 
   function handleRegisterConfirm(state) {
@@ -201,22 +201,25 @@ function App() {
   }
 
   function tokenCheck() {
-      const jwt = localStorage.getItem('jwt');
-      if(jwt){
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
       auth.getContent(jwt)
-        .then((res)=>{
-          if(res){
+        .then((res) => {
+          if (res) {
             setUserData({
               id: res.data._id,
               email: res.data.email
             });
             setLoggedIn(true);
-            setLoaded(true);
             history.push('/');
           }
         })
         .catch(err => console.log(err));
     }
+  }
+
+  function handleAuthState(state) {
+    setAuthState(state);
   }
 
   return (
@@ -226,36 +229,39 @@ function App() {
           loggedIn={loggedIn}
           userData={userData}
           onSignOut={handleSignOut}
+          authState={authState}
         />
         <Switch>
-          <ProtectedRoute exact
-                          path="/"
-                          loggedIn={loggedIn}
-                          component={Main}
-                          onEditProfile={handleEditProfileClick}
-                          onAddPlace={handleAddPlaceClick}
-                          onEditAvatar={handleEditAvatarClick}
-                          onCardClick={handleCardClick}
-                          onCardLike={handleCardLike}
-                          cards={cards}
-                          onCardDelete={handleConfirm}
-                          isLoading={isLoadingLoader}
+          <ProtectedRoute
+            exact path="/"
+            loggedIn={loggedIn}
+            component={Main}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            cards={cards}
+            onCardDelete={handleConfirm}
+            isLoading={isLoadingLoader}
           />
-            <Route path="/sign-up">
-              <Register
-                name="register"
-                onRegister={handleRegister}
-                onConfirm={handleRegisterConfirm}
-                isLoading={isLoading}
-              />
-            </Route>
-            <Route path="/sign-in">
-              <Login
-                name="login"
-                onLogin={handleLogin}
-                isLoading={isLoading}
-              />
-            </Route>
+          <Route path="/sign-up">
+            <Register
+              name="register"
+              onRegister={handleRegister}
+              onConfirm={handleRegisterConfirm}
+              isLoading={isLoading}
+              onAuthState={handleAuthState}
+            />
+          </Route>
+          <Route path="/sign-in">
+            <Login
+              name="login"
+              onLogin={handleLogin}
+              isLoading={isLoading}
+              onAuthState={handleAuthState}
+            />
+          </Route>
           <Route>
             {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
           </Route>
@@ -290,7 +296,11 @@ function App() {
           onClose={closeAllPopups}
           isSuccess={isSuccess}
         />
-        <ImagePopup isOpen={isImgPopupOpen} onClose={closeAllPopups} card={selectedCard}/>
+        <ImagePopup
+          isOpen={isImgPopupOpen}
+          onClose={closeAllPopups}
+          card={selectedCard}
+        />
       </CurrentUserContext.Provider>
     </div>
   );

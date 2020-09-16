@@ -73,7 +73,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
              value={`${isLoading ? 'Сохранение' : 'Сохранить'}`}/>
     </PopupWithForm>
   );
-
 }
 
 export default EditProfilePopup;
