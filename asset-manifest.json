@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "./static/css/main.ec4576ae.chunk.css",
+    "main.js": "./static/js/main.40f0bc13.chunk.js",
+    "main.js.map": "./static/js/main.40f0bc13.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.a5163ae5.js",
+    "runtime-main.js.map": "./static/js/runtime-main.a5163ae5.js.map",
+    "static/js/2.4d5a5a55.chunk.js": "./static/js/2.4d5a5a55.chunk.js",
+    "static/js/2.4d5a5a55.chunk.js.map": "./static/js/2.4d5a5a55.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.4270c11effedcdd49e623af18de2f1ef.js": "./precache-manifest.4270c11effedcdd49e623af18de2f1ef.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/main.ec4576ae.chunk.css.map": "./static/css/main.ec4576ae.chunk.css.map",
+    "static/js/2.4d5a5a55.chunk.js.LICENSE.txt": "./static/js/2.4d5a5a55.chunk.js.LICENSE.txt",
+    "static/media/index.css": "./static/media/profile-edit-avatar_.34c46850.svg",
+    "static/media/info-tool-tip-failure.svg": "./static/media/info-tool-tip-failure.4072126c.svg",
+    "static/media/info-tool-tip-success.svg": "./static/media/info-tool-tip-success.e38b395c.svg",
+    "static/media/logo-max.svg": "./static/media/logo-max.94cbab21.svg",
+    "static/media/logo-min.svg": "./static/media/logo-min.0fce8a33.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a5163ae5.js",
+    "static/js/2.4d5a5a55.chunk.js",
+    "static/css/main.ec4576ae.chunk.css",
+    "static/js/main.40f0bc13.chunk.js"
+  ]
+}
