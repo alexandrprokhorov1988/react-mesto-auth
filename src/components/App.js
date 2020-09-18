@@ -23,8 +23,8 @@ function App() {
   const [isConfirmPopupOpen, setConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({
-    name: 'Жак-Ив-Кусто',
-    about: 'Исследователь океана',
+    name: '',
+    about: '',
     avatar: null
   });
   const [cards, setCards] = React.useState([]);
@@ -159,16 +159,25 @@ function App() {
       })
   }
 
+  function handleRegisterConfirm(state) {
+    setIsInfoTooltipPopupOpen(true);
+    setIsSuccess(state);
+    document.addEventListener('keydown', handleEscClose);
+  }
+
   function handleRegister({ email, password }) {
     setIsLoading(true);
     return auth.register(email, password)
-      .then((res) => {
+      .then(() => {
+        handleRegisterConfirm(true);
+        history.push('/sign-in');
+      })
+      .catch((err) => {
+        handleRegisterConfirm(false);
+        console.log(err);
+      })
+      .finally(() => {
         setIsLoading(false);
-        if (res) {
-          return true;
-        } else {
-          throw new Error('некорректно заполнено одно из полей');
-        }
       })
   }
 
@@ -177,7 +186,7 @@ function App() {
     return auth.authorize(email, password)
       .then((res) => {
         if (res && res.token) {
-          setLoggedIn(true);
+          localStorage.setItem('jwt', res.token);
           tokenCheck();
         }
       })
@@ -195,11 +204,6 @@ function App() {
     setLoggedIn(false);
   }
 
-  function handleRegisterConfirm(state) {
-    setIsInfoTooltipPopupOpen(true);
-    setIsSuccess(state);
-  }
-
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
@@ -214,7 +218,10 @@ function App() {
             history.push('/');
           }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+          history.push('/sign-in');
+        });
     }
   }
 
@@ -249,7 +256,6 @@ function App() {
             <Register
               name="register"
               onRegister={handleRegister}
-              onConfirm={handleRegisterConfirm}
               isLoading={isLoading}
               onAuthState={handleAuthState}
             />

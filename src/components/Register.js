@@ -1,10 +1,9 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-function Register({ onRegister, name, onConfirm, isLoading, onAuthState }) {
+function Register({ onRegister, name, isLoading, onAuthState }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const history = useHistory();
 
   React.useEffect(() => {
     onAuthState(true);
@@ -23,14 +22,7 @@ function Register({ onRegister, name, onConfirm, isLoading, onAuthState }) {
     if (!email || !password) {
       return;
     }
-    onRegister({ email, password })
-      .then(() => {
-        onConfirm(true);
-        history.push('/sign-in');
-      })
-      .catch(() => {
-        onConfirm(false);
-      });
+    onRegister({ email, password });
   }
 
   return (
@@ -54,7 +46,8 @@ function Register({ onRegister, name, onConfirm, isLoading, onAuthState }) {
                    required
                    id="email-input"
                    value={email}
-                   onChange={handleChangeEmail}/>
+                   onChange={handleChangeEmail}
+            />
             <span className="form__input-error form__input-error_type_register"
                   id="email-input-error"/>
           </label>
@@ -68,7 +61,8 @@ function Register({ onRegister, name, onConfirm, isLoading, onAuthState }) {
                    required
                    id="password-input"
                    value={password}
-                   onChange={handleChangePassword}/>
+                   onChange={handleChangePassword}
+            />
             <span className="form__input-error form__input-error_type_register"
                   id="password-input-error"/>
           </label>

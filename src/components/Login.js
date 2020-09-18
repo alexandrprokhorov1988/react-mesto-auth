@@ -1,10 +1,9 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 function Login({ onLogin, name, isLoading, onAuthState }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const history = useHistory();
 
   React.useEffect(() => {
     onAuthState(false);
@@ -23,10 +22,7 @@ function Login({ onLogin, name, isLoading, onAuthState }) {
     if (!email || !password) {
       return;
     }
-    onLogin({ email, password })
-      .then(()=>{
-         history.push("/");
-      })
+    onLogin({ email, password });
   }
 
   return (
