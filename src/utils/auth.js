@@ -12,9 +12,8 @@ export const register = (email, password) => {
     .then((res) => {
       if (res.status !== 400) {
         return res.json();
-      } else {
-        throw new Error('Некорректно заполнено одно из полей');
       }
+      throw new Error('Некорректно заполнено одно из полей');
     })
 };
 
@@ -37,7 +36,7 @@ export const authorize = (email, password) => {
       if (res.status === 401) {
         throw new Error('Пользователь с email не найден');
       }
-      throw new Error(`Ошибка: ${res.status}`);
+      throw new Error(`Ошибка авторизации: ${res.status}`);
     })
 };
 
@@ -60,6 +59,6 @@ export const getContent = (token) => {
       if (res.status === 401) {
         throw new Error('Переданный токен некорректен');
       }
-      throw new Error(`Ошибка: ${res.status}`);
+      throw new Error(`Ошибка токена: ${res.status}`);
     })
 };
