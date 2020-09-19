@@ -1,27 +1,17 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
+import {useFormValidation} from '../hooks/useFormValidation';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
-  const [name, setName] = React.useState('');
-  const [link, setLink] = React.useState('');
+  const { values, handleChange, errors, isValid, resetForm } = useFormValidation();
 
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeLink(e) {
-    setLink(e.target.value);
-  }
+  React.useEffect(() => {
+    resetForm();
+  }, [isOpen, resetForm]);
 
   function handleAddPlaceSubmit(e) {
     e.preventDefault();
-
-    onAddPlace({
-      name,
-      link,
-    });
-    setName('');
-    setLink('');
+    onAddPlace(values);
   }
 
   return (
@@ -39,10 +29,10 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
                maxLength="30"
                required id="imgName-input"
                pattern="^[а-яёА-ЯЁa-zA-Z0-9-\s]+$"
-               value={name}
-               onChange={handleChangeName}/>
-        <span className="form__input-error"
-              id="imgName-input-error"/>
+               value={values.name || ''}
+               onChange={handleChange}/>
+        <span className={`form__input-error ${!isValid ? 'form__input-error_visible' : ''}`}
+              id="imgName-input-error">{errors.name || ''}</span>
       </label>
       <label className="form__label">
         <input className="form__input"
@@ -51,15 +41,16 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
                placeholder="Ссылка на картинку"
                required
                id="link-input"
-               value={link}
-               onChange={handleChangeLink}/>
-        <span className="form__input-error"
-              id="link-input-error"/>
+               value={values.link || ''}
+               onChange={handleChange}
+        />
+        <span className={`form__input-error ${!isValid ? 'form__input-error_visible' : ''}`}
+              id="link-input-error">{errors.link || ''}</span>
       </label>
-      <input className="form__submit-button"
+      <input className={`form__submit-button ${!isValid ? 'form__submit-button_inactive' : ''}`}
              type="submit"
              name="submit"
-             disabled={isLoading}
+             disabled={!isValid || isLoading}
              value={`${isLoading ? 'Сохранение' : 'Создать'}`}
       />
     </PopupWithForm>

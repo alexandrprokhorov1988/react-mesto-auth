@@ -5,8 +5,25 @@
   line-height: 22px;
   text-decoration: none;
   padding-top: 6px;
+  text-align: end;
+  grid-area: link;
 }
 
 .header__link:hover{
   opacity: 0.6;
+}
+
+@media screen and (max-width: 768px) {
+  .header__link {
+    align-self: center;
+    padding-top: 0;
+    padding-right: 30px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .header__link {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }

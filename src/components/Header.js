@@ -8,18 +8,19 @@ function Header({ loggedIn, userData, authState, onSignOut }) {
 
   return (
     <header className="header">
+      <div className="header__container">
       <a href="/" className="logo">
         <picture>
           <source media="(max-width: 375px)" srcSet={headerLogoMin}/>
           <img src={headerLogoMax} alt="Логотип"/>
         </picture>
       </a>
-      {loggedIn
-        ? <NavBar signOut={onSignOut} email={userData ? userData.email : ''}/>
-        : <Link to={authState ? "/sign-in" : "/sign-up"} className="header__link">
-          {authState ? "Войти" : "Регистрация"}
-        </Link>
-      }
+      <button type="button" className="popup__close-icon popup__close-icon_type_header"/>
+      {!loggedIn && <Link to={authState ? "/sign-in" : "/sign-up"} className="header__link">
+        {authState ? "Войти" : "Регистрация"}
+      </Link>}
+      </div>
+      {loggedIn && <NavBar signOut={onSignOut} email={userData ? userData.email : ''}/>}
     </header>
   );
 }

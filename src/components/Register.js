@@ -1,28 +1,24 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {useFormValidation} from '../hooks/useFormValidation';
 
 function Register({ onRegister, name, isLoading, onAuthState }) {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const { values, handleChange, errors, isValid, resetForm } = useFormValidation();
 
   React.useEffect(() => {
     onAuthState(true);
   }, []);
 
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setPassword(e.target.value);
-  }
+  React.useEffect(() => {
+    resetForm();
+  }, [resetForm]);
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    if (!email || !password) {
+    if (!values.email || !values.password) {
       return;
     }
-    onRegister({ email, password });
+    onRegister(values);
   }
 
   return (
@@ -45,11 +41,11 @@ function Register({ onRegister, name, isLoading, onAuthState }) {
                    maxLength="40"
                    required
                    id="email-input"
-                   value={email}
-                   onChange={handleChangeEmail}
+                   value={values.email || ''}
+                   onChange={handleChange}
             />
-            <span className="form__input-error form__input-error_type_register"
-                  id="email-input-error"/>
+            <span className={`form__input-error form__input-error_type_register ${!isValid ? 'form__input-error_visible' : ''}`}
+                  id="email-input-error">{errors.email || ''}</span>
           </label>
           <label className="form__label">
             <input className="form__input form__input_type_register"
@@ -60,17 +56,17 @@ function Register({ onRegister, name, isLoading, onAuthState }) {
                    maxLength="40"
                    required
                    id="password-input"
-                   value={password}
-                   onChange={handleChangePassword}
+                   value={values.password || ''}
+                   onChange={handleChange}
             />
-            <span className="form__input-error form__input-error_type_register"
-                  id="password-input-error"/>
+            <span className={`form__input-error form__input-error_type_register ${!isValid ? 'form__input-error_visible' : ''}`}
+                  id="password-input-error">{errors.password || ''}</span>
           </label>
-          <input className="form__submit-button form__submit-button_type_register"
+          <input className={`form__submit-button form__submit-button_type_register ${!isValid ? 'form__submit-button_inactive' : ''}`}
                  type="submit"
                  name="submit"
                  value={`${isLoading ? 'Регистрация' : 'Зарегистрироваться'}`}
-                 disabled={isLoading}
+                 disabled={!isValid || isLoading}
           />
         </form>
         <div className="register__signin">

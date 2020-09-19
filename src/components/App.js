@@ -39,6 +39,8 @@ function App() {
   const [authState, setAuthState] = React.useState(false);
   const history = useHistory();
 
+  //todo переделать иконку закрытия у всех попапов
+
   React.useEffect(() => {
     setIsLoadingLoader(true);
     Promise.all([api.getUserInfo(), api.getInitialCards()])

@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: 425px){
-  .popup__container_type_form{
-    width: calc(100% - 25%);
+  .popup__container_type_add{
+    width: calc(100% - 12.5%);
   }
 }

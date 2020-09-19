@@ -12,7 +12,7 @@
 }
 
 @media screen and (max-width: 425px) {
-  .popup__container_type_form-confirm {
-    width: calc(100% - 25%);
+  .popup__container_type_confirm {
+    width: calc(100% - 12.5%);
   }
 }

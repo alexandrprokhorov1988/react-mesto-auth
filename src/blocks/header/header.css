@@ -1,11 +1,12 @@
 @import url(__link/header__link.css);
+@import url(__container/header__container.css);
 
 .header {
   margin: 0 auto;
   padding-top: 45px;
   max-width: 880px;
   width: calc(100% - 22.5%);
-  height: 74px;
+  /*height: 74px;*/
   opacity: 0.7;
   border-bottom: 1px solid #545454;
   display: flex;
@@ -16,14 +17,12 @@
 
 @media screen and (max-width: 768px) {
   .header {
-    height: 190px;
-    padding-top: 28px;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas:
-            "navbar"
-            "logo";
-    border-bottom: none;
+    /*height: 84px;*/
+    padding-top: 0;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(84, 84, 84, .7);
+    width: 100%;
   }
 }

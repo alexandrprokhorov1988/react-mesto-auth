@@ -1,18 +1,6 @@
 import React from 'react';
-import FormValidator from "../utils/validation";
-import validation from "../utils/constants";
 
 function PopupWithForm({isOpen, name, title, onClose, children, onSubmit}) {
-
-  React.useEffect(() => {
-    const runValidation = () => {
-      const forms = Array.from(document.querySelectorAll('.form'));
-      forms.forEach((formElement) => {
-        new FormValidator(validation, formElement).enableValidation();
-      });
-    };
-    runValidation();
-  }, []);
 
   return (
     <div className={`popup popup_type_form ${isOpen ? 'popup_opened' : ''}`} id={`${name}Popup`}>

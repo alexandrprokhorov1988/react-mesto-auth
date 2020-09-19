@@ -7,7 +7,7 @@ function InfoTooltip({ onClose, isOpen, isSuccess }) {
   return (
     <div className={`popup popup_type_form ${isOpen ? 'popup_opened' : ''}`} id={'infoTooltipPopup'}>
       <div className={`popup__container popup__container_type_infoTooltip`}>
-        <button type="button" className="popup__close-icon popup__close-icon_type_infoTooltip" onClick={onClose}/>
+        <button type="button" className="popup__close-icon" onClick={onClose}/>
         <img src={isSuccess ? success : failure}
              alt={isSuccess ? "Успешная регистрация." : "Ошибка при регистрации"}
              className="popup__image_type_infoTooltip"/>

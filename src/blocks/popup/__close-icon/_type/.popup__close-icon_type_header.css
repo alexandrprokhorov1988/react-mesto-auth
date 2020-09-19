@@ -1,0 +1,17 @@
+.popup__close-icon_type_header{
+  display: none;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 29px;
+  right: 30px;
+  background-image: url(../../../../images/menu-button.svg);
+  transform: rotate(180deg);
+}
+
+@media screen and (max-width: 768px) {
+  .popup__close-icon_type_header{
+    display: block;
+  }
+}
+

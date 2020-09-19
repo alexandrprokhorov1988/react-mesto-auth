@@ -13,5 +13,6 @@
     line-height: 17px;
     flex-direction: column;
     align-items: center;
+    padding: 0;
   }
 }

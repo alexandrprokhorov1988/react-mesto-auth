@@ -1,28 +1,24 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {useFormValidation} from '../hooks/useFormValidation';
 
 function Login({ onLogin, name, isLoading, onAuthState }) {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const { values, handleChange, errors, isValid, resetForm } = useFormValidation();
 
   React.useEffect(() => {
     onAuthState(false);
   }, []);
 
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setPassword(e.target.value);
-  }
+  React.useEffect(() => {
+    resetForm();
+  }, [resetForm]);
 
   function handleLoginSubmit(e) {
     e.preventDefault();
-    if (!email || !password) {
+    if (!values.email || !values.password) {
       return;
     }
-    onLogin({ email, password });
+    onLogin(values);
   }
 
   return (
@@ -45,10 +41,10 @@ function Login({ onLogin, name, isLoading, onAuthState }) {
                    maxLength="40"
                    required
                    id="email-input"
-                   value={email}
-                   onChange={handleChangeEmail}/>
-            <span className="form__input-error form__input-error_type_login"
-                  id="email-input-error"/>
+                   value={values.email || ''}
+                   onChange={handleChange}/>
+            <span className={`form__input-error form__input-error_type_login ${!isValid ? 'form__input-error_visible' : ''}`}
+                  id="email-input-error">{errors.email || ''}</span>
           </label>
           <label className="form__label">
             <input className="form__input form__input_type_login"
@@ -59,16 +55,18 @@ function Login({ onLogin, name, isLoading, onAuthState }) {
                    maxLength="40"
                    required
                    id="password-input"
-                   value={password}
-                   onChange={handleChangePassword}/>
-            <span className="form__input-error form__input-error_type_login"
-                  id="password-input-error"/>
+                   value={values.password || ''}
+                   onChange={handleChange}/>
+            <span className={`form__input-error form__input-error_type_login ${!isValid ? 'form__input-error_visible' : ''}`}
+                  id="password-input-error">{errors.password || ''}</span>
           </label>
-          <input className="form__submit-button form__submit-button_type_login"
-                 type="submit"
-                 name="submit"
-                 value={`${isLoading ? 'Вход' : 'Войти'}`}
-                 disabled={isLoading}/>
+          <input
+            className={`form__submit-button form__submit-button_type_login ${!isValid ? 'form__submit-button_inactive' : ''}`}
+            type="submit"
+            name="submit"
+            value={`${isLoading ? 'Вход' : 'Войти'}`}
+            disabled={!isValid || isLoading}
+          />
         </form>
         <div className="login__signin">
           <p className="login__question">Ещё не зарегистрированы?</p>

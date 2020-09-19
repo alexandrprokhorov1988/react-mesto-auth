@@ -1,8 +1,14 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
+import {useFormValidation} from '../hooks/useFormValidation';
 
-function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading}) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avatarRef = React.useRef();
+  const { values, handleChange, errors, isValid, resetForm } = useFormValidation();
+
+  React.useEffect(() => {
+    resetForm();
+  }, [isOpen, resetForm]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -25,14 +31,17 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading}) {
                placeholder="Ссылка на аватар"
                required
                id="avatarUrl-input"
-               ref={avatarRef}/>
-        <span className="form__input-error"
-              id="avatarUrl-input-error"/>
+               value={values.avatarUrl || ''}
+               onChange={handleChange}
+               ref={avatarRef}
+        />
+        <span className={`form__input-error ${!isValid ? 'form__input-error_visible' : ''}`}
+              id="avatarUrl-input-error">{errors.avatarUrl || ''}</span>
       </label>
-      <input className="form__submit-button"
+      <input className={`form__submit-button ${!isValid ? 'form__submit-button_inactive' : ''}`}
              type="submit"
              name="submit"
-             disabled={isLoading}
+             disabled={!isValid || isLoading}
              value={`${isLoading ? 'Сохранение' : 'Сохранить'}`}/>
     </PopupWithForm>
   );

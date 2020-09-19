@@ -1,36 +1,24 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import {useFormValidation} from '../hooks/useFormValidation';
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const currentUser = React.useContext(CurrentUserContext);
-  const [name, setName] = React.useState(currentUser.name);
-  const [description, setDescription] = React.useState(currentUser.about);
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeDescription(e) {
-    setDescription(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    onUpdateUser({
-      name,
-      about: description,
-    });
-  }
+  const { values, handleChange, errors, isValid, resetForm } = useFormValidation();
 
   React.useEffect(() => {
     if (currentUser) {
-      if (isOpen) {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
+      if(isOpen){
+        resetForm(currentUser);
       }
     }
-  }, [currentUser, isOpen]);
+  }, [isOpen, currentUser, resetForm]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onUpdateUser(values);
+  }
 
   return (
     <PopupWithForm name="edit"
@@ -47,10 +35,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
                maxLength="40"
                required pattern="^[а-яёА-ЯЁa-zA-Z-\s]+$"
                id="name-input"
-               value={name}
-               onChange={handleChangeName}/>
-        <span className="form__input-error"
-              id="name-input-error"/>
+               value={values.name || ''}
+               onChange={handleChange}/>
+        <span className={`form__input-error ${!isValid ? 'form__input-error_visible' : ''}`}
+              id="name-input-error">{errors.name || ''}</span>
       </label>
       <label className="form__label">
         <input className="form__input"
@@ -61,15 +49,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
                maxLength="200"
                required id="profession-input"
                pattern="^[а-яёА-ЯЁa-zA-Z0-9-\s]+$"
-               value={description}
-               onChange={handleChangeDescription}/>
-        <span className="form__input-error"
-              id="profession-input-error"/>
+               value={values.about || ''}
+               onChange={handleChange}
+        />
+        <span className={`form__input-error ${!isValid ? 'form__input-error_visible' : ''}`}
+              id="profession-input-error">{errors.about || ''}</span>
       </label>
-      <input className="form__submit-button"
+      <input className={`form__submit-button ${!isValid ? 'form__submit-button_inactive' : ''}`}
              type="submit"
              name="submit"
-             disabled={isLoading}
+             disabled={!isValid || isLoading}
              value={`${isLoading ? 'Сохранение' : 'Сохранить'}`}/>
     </PopupWithForm>
   );
