@@ -12,7 +12,8 @@
 @import url(./__container/_type/popup__container_type_infoTooltip.css);
 @import url(./__title/_type/popup__title_type_infoTooltip.css);
 @import url(./__image/_type/popup__image_type_infoTooltip.css);
-@import url(./__close-icon/_type/.popup__close-icon_type_header.css);
+@import url(./__close-icon/_type/popup__close-icon_type_open.css);
+@import url(./__close-icon/_type/popup__close-icon_type_close.css);
 
 .popup {
   position: fixed;

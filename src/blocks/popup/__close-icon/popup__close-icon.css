@@ -27,7 +27,7 @@
   background-image: url(../../../images/close-icon-gray.svg);
 }
 
-@media screen and (max-width: 375px){
+@media screen and (max-width: 425px){
   .popup__close-icon{
     width: 30px;
     height: 30px;

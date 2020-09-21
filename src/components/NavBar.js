@@ -1,9 +1,9 @@
 import React from 'react';
 
-function NavBar({signOut, email}) {
+function NavBar({signOut, email, isOpenNav}) {
 
   return (
-    <div className="navbar">
+    <div className={`navbar ${!isOpenNav ? 'navbar_hide' : ''}`}>
       <ul className="navbar__nav">
         <li><p className="navbar__link navbar__user-name">{email}</p></li>
         <li>
@@ -12,7 +12,6 @@ function NavBar({signOut, email}) {
       </ul>
     </div>
   )
-
 }
 
 export default NavBar;

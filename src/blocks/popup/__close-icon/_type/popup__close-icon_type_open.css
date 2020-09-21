@@ -1,0 +1,25 @@
+.popup__close-icon_type_open{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 29px;
+  right: 60px;
+  transform: rotate(180deg);
+  display: none;
+}
+
+.popup__close-icon_type_open:hover{
+  transform: rotate(90deg);
+}
+
+@media screen and (max-width: 768px) {
+  .popup__close-icon_type_open{
+    display: block;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .popup__close-icon_type_open{
+    right: 30px;
+  }
+}

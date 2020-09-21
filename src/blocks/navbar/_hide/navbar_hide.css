@@ -1,0 +1,6 @@
+@media screen and (max-width: 768px) {
+  .navbar_hide{
+    display: none;
+  }
+}
+

@@ -8,8 +8,14 @@
   .logo {
     max-width: 100%;
     padding-top: 24px;
-    /*padding-bottom: 31px;*/
-    padding-left: 30px;
+    padding-left: 60px;
     align-self: start;
+  }
+}
+
+
+@media screen and (max-width: 425px) {
+  .logo {
+    padding-left: 30px;
   }
 }

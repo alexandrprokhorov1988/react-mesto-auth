@@ -11,7 +11,7 @@
   flex-direction: column;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 375px) {
   .popup__container_type_confirm {
     width: calc(100% - 12.5%);
   }

@@ -17,6 +17,12 @@
   .header__link {
     align-self: center;
     padding-top: 0;
+    padding-right: 60px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .header__link {
     padding-right: 30px;
   }
 }
