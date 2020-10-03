@@ -25,7 +25,7 @@ function Header({ loggedIn, userData, authState, onSignOut }) {
           className={`popup__close-icon ${isOpenNav ? 'popup__close-icon_type_open' : 'popup__close-icon_type_close'}`}
           onClick={handleOpen}
         />}
-        {!loggedIn && <Link to={authState ? "/sign-in" : "/sign-up"} className="header__link">
+        {!loggedIn && <Link to={authState ? "/signin" : "/signup"} className="header__link">
           {authState ? "Войти" : "Регистрация"}
         </Link>}
       </div>
