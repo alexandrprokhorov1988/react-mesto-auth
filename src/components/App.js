@@ -41,7 +41,7 @@ function App() {
 
   React.useEffect(() => {
     setIsLoadingLoader(true);
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    Promise.all([api.getUserInfo(), api.getInitialCards()]) //todo отдавать после проверки токена
       .then(([user, card]) => {
         setCurrentUser(user);
         setCards(card);
@@ -170,7 +170,7 @@ function App() {
     return auth.register(email, password)
       .then(() => {
         handleRegisterConfirm(true);
-        history.push('/sign-in');
+        history.push('/signin');
       })
       .catch((err) => {
         handleRegisterConfirm(false);
@@ -200,7 +200,7 @@ function App() {
 
   function handleSignOut() {
     localStorage.removeItem('jwt');
-    history.push('/sign-in');
+    history.push('/signin');
     setLoggedIn(false);
   }
 
@@ -220,7 +220,7 @@ function App() {
         })
         .catch(err => {
           console.log(err);
-          history.push('/sign-in');
+          history.push('/signin');
         });
     }
   }
@@ -252,7 +252,7 @@ function App() {
             onCardDelete={handleConfirm}
             isLoading={isLoadingLoader}
           />
-          <Route path="/sign-up">
+          <Route path="/signup">
             <Register
               name="register"
               onRegister={handleRegister}
@@ -260,7 +260,7 @@ function App() {
               onAuthState={handleAuthState}
             />
           </Route>
-          <Route path="/sign-in">
+          <Route path="/signin">
             <Login
               name="login"
               onLogin={handleLogin}
@@ -269,7 +269,7 @@ function App() {
             />
           </Route>
           <Route>
-            {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
+            {loggedIn ? <Redirect to="/"/> : <Redirect to="/signin"/>}
           </Route>
         </Switch>
         <Footer/>
