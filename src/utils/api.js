@@ -1,13 +1,12 @@
 class Api {
-  constructor({baseUrl, apiKey}) {
+  constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
-    this._autorization = apiKey;
   }
 
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
-        authorization: this._autorization
+        'Authorization': `Bearer ${token}`
       }
     })
       .then(res => {
@@ -18,10 +17,10 @@ class Api {
       });
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        authorization: this._autorization
+        'Authorization': `Bearer ${token}`,
       }
     })
       .then(res => {
@@ -32,11 +31,11 @@ class Api {
       })
   }
 
-  setUserInfo({name, about}) {
+  setUserInfo({ name, about }, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this._autorization,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -52,11 +51,11 @@ class Api {
       });
   }
 
-  setNewCard({name, link}) {
+  setNewCard({ name, link }, token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this._autorization,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -72,11 +71,11 @@ class Api {
       })
   }
 
-  deleteCard(cardId) {
+  deleteCard(cardId, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._autorization,
+        'Authorization': `Bearer ${token}`,
       },
     })
       .then(res => {
@@ -87,7 +86,7 @@ class Api {
       })
   }
 
-  likeCard(cardId, isLiked) {
+  likeCard(cardId, isLiked, token) {
     let method = '';
     if (!isLiked) {
       method = 'DELETE';
@@ -97,7 +96,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: method,
       headers: {
-        authorization: this._autorization,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -112,11 +111,11 @@ class Api {
       })
   }
 
-  setUserAvatar(avatar) {
+  setUserAvatar(avatar, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._autorization,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -133,8 +132,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-12',
-  apiKey: 'fb1a9012-192e-4e17-8940-fb9d45f05cd7',
+  baseUrl: 'https://api.alexandrprokhorov.fvds.ru/',
 });
 
 export default api;
