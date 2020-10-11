@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.alexandrprokhorov.fvds.ru/';
+export const BASE_URL = 'https://pop.alexandrprokhorov.fvds.ru';
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -36,7 +36,7 @@ export const authorize = (email, password) => {
       if (res.status === 401) {
         throw new Error('Пользователь с email не найден');
       }
-      throw new Error(`Ошибка авторизации: ${res.status}`); //todo 500
+      throw new Error(`Ошибка авторизации: ${res.status}`);
     })
 };
 

@@ -45,14 +45,16 @@ function App() {
   }, [loggedIn]);
 
   React.useEffect(() => {
-    setIsLoadingLoader(true);
-    Promise.all([api.getUserInfo(token), api.getInitialCards(token)]) //todo отдавать после проверки токена
-      .then(([user, card]) => {
-        setCurrentUser(user);
-        setCards(card);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoadingLoader(false))
+    if (loggedIn) {
+      setIsLoadingLoader(true);
+      Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
+        .then(([user, card]) => {
+          setCurrentUser(user);
+          setCards(card);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoadingLoader(false))
+    }
   }, [loggedIn]);
 
   function handleEscClose(e) {
@@ -201,6 +203,7 @@ function App() {
 
   function handleSignOut() {
     localStorage.removeItem('jwt');
+    setToken(null);
     history.push('/signin');
     setLoggedIn(false);
   }
@@ -221,6 +224,7 @@ function App() {
           }
         })
         .catch(err => {
+          setToken(null);
           console.log(err);
           history.push('/signin');
         });

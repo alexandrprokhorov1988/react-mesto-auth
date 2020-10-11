@@ -132,7 +132,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.alexandrprokhorov.fvds.ru/',
+  baseUrl: 'https://pop.alexandrprokhorov.fvds.ru',
 });
 
 export default api;
