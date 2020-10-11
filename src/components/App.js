@@ -40,18 +40,22 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
-    setIsLoadingLoader(true);
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([user, card]) => {
-        setCurrentUser(user);
-        setCards(card);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoadingLoader(false))
+    tokenCheck();
+    console.log('check');
   }, []);
 
   React.useEffect(() => {
-    tokenCheck();
+    if(loggedIn) {
+      console.log('to');
+      setIsLoadingLoader(true);
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([user, card]) => {
+          setCurrentUser(user);
+          setCards(card);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoadingLoader(false))
+    }
   }, [loggedIn]);
 
   function handleEscClose(e) {
