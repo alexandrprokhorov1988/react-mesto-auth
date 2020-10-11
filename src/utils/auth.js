@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://pop.alexandrprokhorov.fvds.ru';
+export const BASE_URL = 'https://api.apro.students.nomoreparties.xyz';
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -59,6 +59,6 @@ export const getContent = (token) => {
       if (res.status === 401) {
         throw new Error('Переданный токен некорректен');
       }
-      throw new Error(`Ошибка токена: ${res.status}`); //todo 500
+      throw new Error(`Ошибка токена: ${res.status}`);
     })
 };
