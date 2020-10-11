@@ -42,7 +42,7 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck();
-  }, [loggedIn]);
+  }, []);
 
   React.useEffect(() => {
     if (loggedIn) {
