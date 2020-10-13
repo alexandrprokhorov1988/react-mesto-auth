@@ -17,6 +17,7 @@ import * as auth from '../utils/auth.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function App() {
+  const [load, setLoad] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
@@ -45,7 +46,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    if(loggedIn) {
+    if (loggedIn) {
       console.log('to');
       setIsLoadingLoader(true);
       Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -164,8 +165,8 @@ function App() {
   }
 
   function handleRegisterConfirm(state) {
-    setIsInfoTooltipPopupOpen(true);
     setIsSuccess(state);
+    setIsInfoTooltipPopupOpen(true);
     document.addEventListener('keydown', handleEscClose);
   }
 
@@ -204,13 +205,15 @@ function App() {
 
   function handleSignOut() {
     localStorage.removeItem('jwt');
-    history.push('/sign-in');
+    setLoad(false);
     setLoggedIn(false);
+    history.push('/sign-in');
   }
 
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
+      setLoad(true);
       auth.getContent(jwt)
         .then((res) => {
           if (res) {
@@ -241,6 +244,7 @@ function App() {
           userData={userData}
           onSignOut={handleSignOut}
           authState={authState}
+          load={load}
         />
         <Switch>
           <ProtectedRoute
@@ -256,22 +260,26 @@ function App() {
             onCardDelete={handleConfirm}
             isLoading={isLoadingLoader}
           />
-          <Route path="/sign-up">
-            <Register
-              name="register"
-              onRegister={handleRegister}
-              isLoading={isLoading}
-              onAuthState={handleAuthState}
-            />
-          </Route>
-          <Route path="/sign-in">
-            <Login
-              name="login"
-              onLogin={handleLogin}
-              isLoading={isLoading}
-              onAuthState={handleAuthState}
-            />
-          </Route>
+          {load ? '' :
+            <>
+              <Route path="/sign-up">
+                <Register
+                  name="register"
+                  onRegister={handleRegister}
+                  isLoading={isLoading}
+                  onAuthState={handleAuthState}
+                />
+              </Route>
+              <Route path="/sign-in">
+                <Login
+                  name="login"
+                  onLogin={handleLogin}
+                  isLoading={isLoading}
+                  onAuthState={handleAuthState}
+                />
+              </Route>
+            </>
+          }
           <Route>
             {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
           </Route>

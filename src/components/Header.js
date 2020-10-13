@@ -4,7 +4,7 @@ import headerLogoMax from '../images/logo-max.svg';
 import NavBar from "../components/NavBar";
 import {Link} from 'react-router-dom';
 
-function Header({ loggedIn, userData, authState, onSignOut }) {
+function Header({ loggedIn, userData, authState, onSignOut, load }) {
   const [isOpenNav, setIsOpenNav] = React.useState(false);
 
   function handleOpen() {
@@ -25,9 +25,13 @@ function Header({ loggedIn, userData, authState, onSignOut }) {
           className={`popup__close-icon ${isOpenNav ? 'popup__close-icon_type_open' : 'popup__close-icon_type_close'}`}
           onClick={handleOpen}
         />}
-        {!loggedIn && <Link to={authState ? "/sign-in" : "/sign-up"} className="header__link">
-          {authState ? "Войти" : "Регистрация"}
-        </Link>}
+        {!load &&
+        <>
+          {!loggedIn && <Link to={authState ? "/sign-in" : "/sign-up"} className="header__link">
+            {authState ? "Войти" : "Регистрация"}
+          </Link>}
+        </>
+        }
       </div>
       {loggedIn && <NavBar signOut={onSignOut} isOpenNav={isOpenNav} email={userData ? userData.email : ''}/>}
     </header>
