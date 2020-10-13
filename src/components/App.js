@@ -39,6 +39,7 @@ function App() {
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [authState, setAuthState] = React.useState(false);
   const history = useHistory();
+  const [token, setToken] = React.useState(null);
 
   React.useEffect(() => {
     tokenCheck();
@@ -47,7 +48,7 @@ function App() {
   React.useEffect(() => {
     if (loggedIn) {
       setIsLoadingLoader(true);
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
+      Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
         .then(([user, card]) => {
           setCurrentUser(user);
           setCards(card);
@@ -96,7 +97,7 @@ function App() {
 
   function handleUpdateUser({ name, about }) {
     setIsLoading(true);
-    api.setUserInfo({ name, about })
+    api.setUserInfo({ name, about }, token)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -109,7 +110,7 @@ function App() {
 
   function handleUpdateAvatar({ avatar }) {
     setIsLoading(true);
-    api.setUserAvatar(avatar)
+    api.setUserAvatar(avatar, token)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -122,7 +123,7 @@ function App() {
 
   function handleAddPlace({ name, link }) {
     setIsLoading(true);
-    api.setNewCard({ name, link })
+    api.setNewCard({ name, link }, token)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -135,7 +136,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    api.likeCard(card._id, !isLiked)
+    api.likeCard(card._id, !isLiked, token)
       .then((newCard) => {
         const newCards = cards.map((c) => c._id === card._id ? newCard : c);
         setCards(newCards);
@@ -150,7 +151,7 @@ function App() {
 
   function handleCardDelete() {
     setIsLoading(true);
-    api.deleteCard(cardId)
+    api.deleteCard(cardId, token)
       .then(() => {
         const newCards = cards.filter((c) => c._id !== cardId);
         setCards(newCards);
@@ -204,6 +205,7 @@ function App() {
   function handleSignOut() {
     localStorage.removeItem('jwt');
     setLoad(false);
+    setToken(null);
     setLoggedIn(false);
     history.push('/sign-in');
   }
@@ -219,11 +221,13 @@ function App() {
               id: res.data._id,
               email: res.data.email
             });
+            setToken(jwt);
             setLoggedIn(true);
             history.push('/');
           }
         })
         .catch(err => {
+          setToken(null);
           console.log(err);
           history.push('/sign-in');
         });

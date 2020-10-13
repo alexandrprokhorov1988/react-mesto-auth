@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.apro.students.nomoreparties.xyz';
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -46,7 +46,7 @@ export const getContent = (token) => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'authorization': `Bearer ${token}`,
     }
   })
     .then((res) => {
