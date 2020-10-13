@@ -18,6 +18,7 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function App() {
   const [load, setLoad] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
@@ -33,7 +34,6 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isLoadingLoader, setIsLoadingLoader] = React.useState(false);
   const [isImgPopupOpen, setImgPopupOpen] = React.useState(false);
-  const [loggedIn, setLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState(null);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -42,12 +42,10 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck();
-    console.log('check');
   }, []);
 
   React.useEffect(() => {
     if (loggedIn) {
-      console.log('to');
       setIsLoadingLoader(true);
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([user, card]) => {
