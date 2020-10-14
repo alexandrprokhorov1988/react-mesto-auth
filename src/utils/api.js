@@ -13,12 +13,11 @@ class Api {
         if (res.ok) {
           return res.json();
         }
-        return Promise.reject(`Ошибка: ${res.status}`);
       });
   }
 
   getUserInfo(token) {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}/users/check`, {
       headers: {
         'authorization': `Bearer ${token}`,
       }
@@ -31,7 +30,7 @@ class Api {
       })
   }
 
-  setUserInfo({ name, about }, token) {
+  setUserInfo(name, about, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -51,7 +50,7 @@ class Api {
       });
   }
 
-  setNewCard({ name, link }, token) {
+  setNewCard( name, link , token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {

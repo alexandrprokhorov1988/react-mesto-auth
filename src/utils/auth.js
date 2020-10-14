@@ -13,7 +13,7 @@ export const register = (email, password) => {
       if (res.status !== 400) {
         return res.json();
       }
-      throw new Error('Некорректно заполнено одно из полей');
+      throw new Error('Некорректно заполнено одно из полей или email занят');
     })
 };
 
@@ -41,7 +41,7 @@ export const authorize = (email, password) => {
 };
 
 export const getContent = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
+  return fetch(`${BASE_URL}/users/check`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',

@@ -51,7 +51,9 @@ function App() {
       Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
         .then(([user, card]) => {
           setCurrentUser(user);
-          setCards(card);
+          if(card){
+            setCards(card.reverse());
+          }
         })
         .catch((err) => console.log(err))
         .finally(() => setIsLoadingLoader(false))
@@ -97,7 +99,7 @@ function App() {
 
   function handleUpdateUser({ name, about }) {
     setIsLoading(true);
-    api.setUserInfo({ name, about }, token)
+    api.setUserInfo( name, about , token)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -123,7 +125,7 @@ function App() {
 
   function handleAddPlace({ name, link }) {
     setIsLoading(true);
-    api.setNewCard({ name, link }, token)
+    api.setNewCard( name, link , token)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -135,7 +137,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     api.likeCard(card._id, !isLiked, token)
       .then((newCard) => {
         const newCards = cards.map((c) => c._id === card._id ? newCard : c);
@@ -218,8 +220,8 @@ function App() {
         .then((res) => {
           if (res) {
             setUserData({
-              id: res.data._id,
-              email: res.data.email
+              id: res._id,
+              email: res.email
             });
             setToken(jwt);
             setLoggedIn(true);
@@ -227,6 +229,7 @@ function App() {
           }
         })
         .catch(err => {
+          setLoad(false);
           setToken(null);
           console.log(err);
           history.push('/sign-in');
