@@ -24,11 +24,12 @@ export const authorize = (email, password) => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
+    credentials: 'include',
     body: JSON.stringify({ email, password })
   })
     .then(res => {
       if (res.status === 200) {
-        return res.json();
+        return;
       }
       if (res.status === 400) {
         throw new Error('Не передано одно из полей');
@@ -40,14 +41,14 @@ export const authorize = (email, password) => {
     })
 };
 
-export const getContent = (token) => {
+export const getContent = () => {
   return fetch(`${BASE_URL}/users/check`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': `Bearer ${token}`,
-    }
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
   })
     .then((res) => {
       if (res.status === 200) {
@@ -60,5 +61,18 @@ export const getContent = (token) => {
         throw new Error('Переданный токен некорректен');
       }
       throw new Error(`Ошибка токена: ${res.status}`);
+    })
+};
+
+export const signOut = () => {
+  return fetch(`${BASE_URL}/signout`, {
+    method: 'POST',
+    credentials: 'include',
+  })
+    .then((res) => {
+      if (res.status === 200) {
+        return;
+      }
+      throw new Error(`Ошибка: ${res.status}`);
     })
 };

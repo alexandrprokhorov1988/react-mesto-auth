@@ -9,7 +9,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
 
   React.useEffect(() => {
     if (currentUser) {
-      if(isOpen){
+      if (isOpen) {
         resetForm(currentUser);
       }
     }

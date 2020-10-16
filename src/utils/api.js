@@ -3,11 +3,12 @@ class Api {
     this._baseUrl = baseUrl;
   }
 
-  getInitialCards(token) {
+  getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
-        'authorization': `Bearer ${token}`
-      }
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
     })
       .then(res => {
         if (res.ok) {
@@ -16,11 +17,12 @@ class Api {
       });
   }
 
-  getUserInfo(token) {
+  getUserInfo() {
     return fetch(`${this._baseUrl}/users/check`, {
       headers: {
-        'authorization': `Bearer ${token}`,
-      }
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
     })
       .then(res => {
         if (res.ok) {
@@ -30,13 +32,13 @@ class Api {
       })
   }
 
-  setUserInfo(name, about, token) {
+  setUserInfo(name, about) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        'authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         name: name,
         about: about
@@ -50,13 +52,13 @@ class Api {
       });
   }
 
-  setNewCard( name, link , token) {
+  setNewCard( name, link) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        'authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         name: name,
         link: link
@@ -70,12 +72,13 @@ class Api {
       })
   }
 
-  deleteCard(cardId, token) {
+  deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        'authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       },
+      credentials: 'include',
     })
       .then(res => {
         if (res.ok) {
@@ -85,7 +88,7 @@ class Api {
       })
   }
 
-  likeCard(cardId, isLiked, token) {
+  likeCard(cardId, isLiked) {
     let method = '';
     if (!isLiked) {
       method = 'DELETE';
@@ -95,9 +98,9 @@ class Api {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: method,
       headers: {
-        'authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         _id: cardId
       })
@@ -110,13 +113,13 @@ class Api {
       })
   }
 
-  setUserAvatar(avatar, token) {
+  setUserAvatar(avatar) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        'authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         avatar: avatar
       })
