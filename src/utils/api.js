@@ -95,7 +95,7 @@ class Api {
     } else {
       method = 'PUT';
     }
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: method,
       headers: {
         'Content-Type': 'application/json'
