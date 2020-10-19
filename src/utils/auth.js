@@ -10,10 +10,15 @@ export const register = (email, password) => {
     body: JSON.stringify({ email, password })
   })
     .then((res) => {
-      if (res.status !== 400) {
+      console.log();
+      if (res.status === 400) {
+        throw new Error('Некорректно заполнено одно из полей');
+      } else if (res.status === 409) {
+        throw new Error('Email занят');
+      } else if (res.status === 200) {
         return res.json();
       }
-      throw new Error('Некорректно заполнено одно из полей или email занят');
+      throw new Error('Ошибка сервера');
     })
 };
 
@@ -42,7 +47,7 @@ export const authorize = (email, password) => {
 };
 
 export const getContent = () => {
-  return fetch(`${BASE_URL}/users/check`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -54,10 +59,10 @@ export const getContent = () => {
       if (res.status === 200) {
         return res.json();
       }
-      if (res.status === 400) {
+      if (res.status === 401) {
         throw new Error('Токен не передан или передан не в том формате');
       }
-      if (res.status === 401) {
+      if (res.status === 400) {
         throw new Error('Переданный токен некорректен');
       }
       throw new Error(`Ошибка токена: ${res.status}`);
