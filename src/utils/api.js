@@ -48,11 +48,14 @@ class Api {
         if (res.ok) {
           return res.json();
         }
+        if (res.status === 400) {
+          throw new Error('Введенные данные некорректны');
+        }
         return Promise.reject(`Ошибка: ${res.status}`);
       });
   }
 
-  setNewCard( name, link) {
+  setNewCard(name, link) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
@@ -67,6 +70,9 @@ class Api {
       .then(res => {
         if (res.ok) {
           return res.json();
+        }
+        if (res.status === 400) {
+          throw new Error('Введенные данные некорректны');
         }
         return Promise.reject(`Ошибка: ${res.status}`);
       })
@@ -127,6 +133,9 @@ class Api {
       .then(res => {
         if (res.ok) {
           return res.json();
+        }
+        if (res.status === 400) {
+          throw new Error('Введенные данные некорректны');
         }
         return Promise.reject(`Ошибка: ${res.status}`);
       })

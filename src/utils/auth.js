@@ -10,7 +10,6 @@ export const register = (email, password) => {
     body: JSON.stringify({ email, password })
   })
     .then((res) => {
-      console.log();
       if (res.status === 400) {
         throw new Error('Некорректно заполнено одно из полей');
       } else if (res.status === 409) {
