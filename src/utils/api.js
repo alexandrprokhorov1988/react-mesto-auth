@@ -135,7 +135,7 @@ class Api {
           return res.json();
         }
         if (res.status === 400) {
-          throw new Error('Введенные данные некорректны');
+          return Promise.reject('Введенные данные некорректны');
         }
         return Promise.reject(`Ошибка: ${res.status}`);
       })
