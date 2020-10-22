@@ -70,7 +70,7 @@ function Login({ onLogin, name, isLoading, onAuthState }) {
         </form>
         <div className="login__signin">
           <p className="login__question">Ещё не зарегистрированы?</p>
-          <Link to="/signup" className="login__login-link">Регистрация</Link>
+          <Link to="/sign-up" className="login__login-link">Регистрация</Link>
         </div>
       </section>
     </main>

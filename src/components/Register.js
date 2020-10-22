@@ -71,7 +71,7 @@ function Register({ onRegister, name, isLoading, onAuthState }) {
         </form>
         <div className="register__signin">
           <p className="register__question">Уже зарегистрированы?</p>
-          <Link to="/signin" className="register__login-link">Войти</Link>
+          <Link to="/sign-in" className="register__login-link">Войти</Link>
         </div>
       </section>
     </main>
