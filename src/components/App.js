@@ -41,7 +41,6 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
-    console.log(setLoggedIn, 'tokencheck');
     tokenCheck();
   }, []);
 
