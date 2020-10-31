@@ -2,12 +2,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {useFormValidation} from '../hooks/useFormValidation';
 
-function Login({ onLogin, name, isLoading, onAuthState }) {
+function Login({ onLogin, name, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormValidation();
-
-  React.useEffect(() => {
-    onAuthState(false);
-  }, []);
 
   React.useEffect(() => {
     resetForm();

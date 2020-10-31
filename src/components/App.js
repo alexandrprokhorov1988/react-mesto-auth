@@ -12,6 +12,7 @@ import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
+import NotFound from './NotFound';
 import api from '../utils/api';
 import * as auth from '../utils/auth.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
@@ -37,10 +38,10 @@ function App() {
   const [userData, setUserData] = React.useState(null);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
-  const [authState, setAuthState] = React.useState(false);
   const history = useHistory();
 
   React.useEffect(() => {
+    console.log(setLoggedIn, 'tokencheck');
     tokenCheck();
   }, []);
 
@@ -191,6 +192,7 @@ function App() {
     return auth.authorize(email, password)
       .then(() => {
         tokenCheck();
+        history.push('/');
       })
       .catch((err) => {
         console.log(err);
@@ -222,7 +224,7 @@ function App() {
             email: res.email
           });
           setLoggedIn(true);
-          history.push('/');
+          // history.push('/');
         }
       })
       .catch(err => {
@@ -232,10 +234,6 @@ function App() {
       });
   }
 
-  function handleAuthState(state) {
-    setAuthState(state);
-  }
-
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -243,7 +241,6 @@ function App() {
           loggedIn={loggedIn}
           userData={userData}
           onSignOut={handleSignOut}
-          authState={authState}
           load={load}
         />
         <Switch>
@@ -267,7 +264,6 @@ function App() {
                   name="register"
                   onRegister={handleRegister}
                   isLoading={isLoading}
-                  onAuthState={handleAuthState}
                 />
               </Route>
               <Route path="/sign-in">
@@ -275,14 +271,16 @@ function App() {
                   name="login"
                   onLogin={handleLogin}
                   isLoading={isLoading}
-                  onAuthState={handleAuthState}
                 />
               </Route>
             </>
           }
-          <Route>
-            {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
+          <Route path="*">
+            <NotFound/>
           </Route>
+          {/*<Route >*/}
+            {/*{loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}*/}
+          {/*</Route>*/}
         </Switch>
         <Footer/>
         <EditProfilePopup

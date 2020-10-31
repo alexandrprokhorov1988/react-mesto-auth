@@ -2,10 +2,11 @@ import React from 'react';
 import headerLogoMin from '../images/logo-min.svg';
 import headerLogoMax from '../images/logo-max.svg';
 import NavBar from "../components/NavBar";
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
-function Header({ loggedIn, userData, authState, onSignOut, load }) {
+function Header({ loggedIn, userData, onSignOut, load }) {
   const [isOpenNav, setIsOpenNav] = React.useState(false);
+  const location = useLocation();
 
   function handleOpen() {
     setIsOpenNav(!isOpenNav);
@@ -27,8 +28,8 @@ function Header({ loggedIn, userData, authState, onSignOut, load }) {
         />}
         {!load &&
         <>
-          {!loggedIn && <Link to={authState ? "/sign-in" : "/sign-up"} className="header__link">
-            {authState ? "Войти" : "Регистрация"}
+          {!loggedIn && <Link to={location.pathname === "/sign-in" ? "/sign-up" : "/sign-in"} className="header__link">
+            {location.pathname === "/sign-up" ? "Войти" : "Регистрация"}
           </Link>}
         </>
         }

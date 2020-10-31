@@ -21,4 +21,7 @@
 @import url(./blocks/form/__input/_type/form__input_type_login.css);
 @import url(./blocks/form/__submit-button/_type/form__submit-button_type_login.css);
 @import url(./blocks/navbar/navbar.css);
-@import url(blocks/navbar/_hide/navbar_hide.css);
+@import url(./blocks/navbar/_hide/navbar_hide.css);
+@import url(./blocks/not-found/not-found.css);
+@import url(./blocks/not-found/__title/__title.css);
+@import url(./blocks/not-found/__button-back/__button-back.css);
