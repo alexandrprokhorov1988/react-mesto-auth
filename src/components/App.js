@@ -256,30 +256,34 @@ function App() {
             onCardDelete={handleConfirm}
             isLoading={isLoadingLoader}
           />
-          {load ? '' :
-            <>
-              <Route path="/sign-up">
-                <Register
-                  name="register"
-                  onRegister={handleRegister}
-                  isLoading={isLoading}
-                />
-              </Route>
-              <Route path="/sign-in">
-                <Login
-                  name="login"
-                  onLogin={handleLogin}
-                  isLoading={isLoading}
-                />
-              </Route>
-            </>
-          }
+          {/*{load ? '' :*/}
+          {/*<>*/}
+          <Route path="/sign-up">
+            {!loggedIn ?
+              <Register
+                name="register"
+                onRegister={handleRegister}
+                isLoading={isLoading}
+              /> :
+              <Redirect to="/"/>}
+          </Route>
+          <Route path="/sign-in">
+            {!loggedIn ?
+              <Login
+                name="login"
+                onLogin={handleLogin}
+                isLoading={isLoading}
+              /> :
+              <Redirect to="/"/>}
+          </Route>
+          {/*</>*/}
+          {/*}*/}
           <Route path="*">
             <NotFound/>
           </Route>
-          {/*<Route >*/}
-            {/*{loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}*/}
-          {/*</Route>*/}
+          <Route>
+            {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
+          </Route>
         </Switch>
         <Footer/>
         <EditProfilePopup
